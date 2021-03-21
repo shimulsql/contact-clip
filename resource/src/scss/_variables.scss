@@ -1,0 +1,67 @@
+// import fonts
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+// Colors
+$primary: #58589D;
+$primary-100: #58589d1c;
+$primary-500: #58589d77;
+$danger: #DE4C4C;
+
+// Body
+$body-bg: #EEEEEE;
+
+// Gradients
+
+//blue & purple
+$blue400_purple500: linear-gradient(#6498ff 0%, #6f49c9 100%);
+
+// Burnt Sienna & froly
+$burntSienna_froly:  linear-gradient(#e27647 0%, #f67676 100%);
+
+// inch worm & mountain meadow
+$inchWorm_mountainMeadow:  linear-gradient(#a7d91a 0%, #14ab60 100%);
+
+// cyan & blue
+$cyan500_blue500: linear-gradient(#1facd1 0%, #2c79de 100%);
+
+
+
+
+
+// More gradients
+$grd-1: linear-gradient(#E27647 0%, #F67676 100%);
+$grd-2: linear-gradient(#E24761 0%, #9F5BC6 100%);
+$grd-3: linear-gradient(#3C8883 0%, #3C8883 100%);
+
+// card gradients
+$card-header-grd: linear-gradient(to right, #E22121, #F25F28);
+$group-name-grd: linear-gradient(to right, #5E5BC5, #B153C8);
+
+
+
+
+
+
+// admin colors
+$sidebar: #1A1A1A;
+$sidebar-active: #202020;
+$sidebar-profile-bg: #232529;
+
+$table-thumb-info-one: #E35C5C;
+
+
+/**
+    Border radius
+**/
+
+$border-radius-sm: .3rem;
+$border-radius-lg: .4rem;
+$border-radius-ex-lg: 1rem;
+
+
+// Font setup
+$font-family-nunito: Nunito, sans-serif;
+$font-regular: 400;
+$font-semibold: 600;
+$font-bold: 700;
+

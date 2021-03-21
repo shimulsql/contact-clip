@@ -1,0 +1,253 @@
+// left side icon card 
+.left-icon-card{
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 10px 10px 0;
+    padding: 15px;
+    align-items: center;
+    position: relative;
+    &::before {
+        content: '';
+        width: 80%;
+        position: absolute;
+        height: 1px;
+        background: #e9ecef;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .icon{
+        width: 80px;
+        margin-right: 10px;
+        i{
+            font-size: 30px;
+            background-color: $gray-600;
+            color: $white;
+            padding: 15px;
+        }
+        .grd-1{
+            background: $blue400_purple500;
+        }
+        .grd-2{
+            background: $inchWorm_mountainMeadow;
+        }
+        .grd-3{
+            background: $cyan500_blue500;
+        }
+        .grd-4{
+            background: $burntSienna_froly;
+        }
+        // image
+        img{
+            height: 60px;
+            width: 60px;
+            object-fit: cover;
+        }
+    }
+    .body{
+        @include apply-font;
+        p{
+            margin-bottom: 0;
+        }
+    }
+}
+
+
+
+/**
+    single profile page
+*/
+
+
+.profile-card{
+    .card-header{
+        height: 119px;
+        @include apply-font(semibold);
+        font-size: 22px;
+        background: $card-header-grd;
+        color: $white;
+        i{
+            color: $white;
+            margin-right: 8px;
+        }
+    }
+    .card-body{
+        .profile-thumb-info{
+            display: flex;
+            justify-content: flex-start;
+            .thumb{
+                position: relative;
+                transform: translateY(-50px);
+                
+               img{
+                width: 113px;
+                height: 113px;
+                object-fit: cover;
+                border-radius: $border-radius-sm;
+               }
+               .blood-group{
+                   position: absolute;
+                   display: none;
+               }
+            }
+            .info{
+                margin-left: 20px;
+                .name{
+                    font-size: 18px;
+                }
+                .group{
+                    font-size: 16px;
+                    background: $group-name-grd;
+                    text-align: center;
+                    padding: 4px 0;
+                    border-radius: $border-radius-ex-lg;
+                    color: $white;
+                    margin-top: 3px;
+                }
+            }
+        }
+
+        .left-icon-card{
+            background-color: transparent;
+            align-items: center;
+            padding: 0 0 10px 0;
+            text-decoration: none;
+            &:last-child{
+                .body{
+                    border: none;
+                }
+            }
+            .icon{
+                width: 58px;
+                i{
+                    border-radius: 50%;
+                    font-size: 20px;
+                }
+
+                .grd-1{
+                    background: $grd-1;
+                }
+                .grd-2{
+                    background: $grd-2;
+                }
+                .grd-3{
+                    background: $grd-3;
+                }
+            }
+            .body{
+                flex-grow: 4;
+                padding-bottom: 5px;
+            }
+            .copy{
+                i{
+                    font-size: 20px;
+                    // line-height: 3rem;
+                }
+            }
+        }
+
+    }
+}
+
+
+
+
+    .more-profile-items{
+        .tab-pane{
+            height: 393px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            &::-webkit-scrollbar{
+                width: 5px;
+                background-color: $gray-200;
+
+            }
+            &::-webkit-scrollbar-thumb{
+                background-color: $gray-600;
+                border-radius: 20px;
+            }
+        }
+        .card-header{
+            padding-bottom: 0;
+            background-color: $primary;
+            border: none;
+            .nav-tabs{
+                border: none;
+                .nav-link{
+                    color: $white;
+                    &.active{
+                        background-color: $white;
+                        color: $primary;
+                        border-color: $white;
+                    }
+                    &:hover{
+                        border-color: transparent;
+                        
+                    }
+                }
+            }
+        }
+
+        .card-body{
+            // position: relative;
+            // padding-top: 0px;
+
+            // &::before {
+            //     position: absolute;
+            //     content: '';
+            //     height: 22px;
+            //     top: 8px;
+            //     left: 0;
+            //     right: 0;
+            //     background: linear-gradient(rgba(255, 255, 255, 0.959) 20%, transparent 100%);
+            //     z-index: 99;
+            // }
+            // .tab-content{
+            //     margin-top: 10px;
+            //     .tab-pane{
+            //         padding-top: 8px;
+            //     }
+            // }
+        }
+
+        // more tab
+        .left-icon-card{
+            padding: 0 0 10px 0;
+            background-color: transparent;
+            margin-bottom: 10px;
+            .icon {
+                width: 70px;
+                img{
+                    border-radius: 50%;
+    
+                }
+            }
+            .body{
+                @include apply-font;
+                flex-grow: 2;
+                .name{
+                    font-size: 20px;
+                    margin-bottom: 0px;
+                }
+                p{
+                    font-size: 16px;
+                    opacity: .5;
+                }
+            }
+            .blood-group{
+                span{
+                    height: 30px;
+                    width: 30px;
+                    display: inline-block;
+                    color: $white;
+                    background-color: $red;
+                    border-radius: 50%;
+                    text-align: center;
+                    line-height: 2.4;
+                    font-size: 14px;
+                    @include apply-font('semibold')
+                }
+            }
+
+        }
+    }

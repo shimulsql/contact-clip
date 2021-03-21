@@ -1,0 +1,15 @@
+@import 'variables';
+@import 'mixins';
+
+
+// bootstrap css
+@import '~bootstrap/scss/bootstrap.scss';
+@import "~animate.css";
+// components
+@import 'list';
+@import 'cards';
+@import 'heading';
+@import 'forms';
+
+// custom css
+@import 'custom';

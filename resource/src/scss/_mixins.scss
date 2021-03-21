@@ -1,0 +1,22 @@
+@mixin vertical-center($container, $content){
+    padding-top: ($container - $content) / 2 + px;
+}
+
+@mixin bg-gradient($color1, $color2){
+    background: linear-gradient($color1 0%, $color2 100%);
+}
+
+// font [default: regular]
+@mixin apply-font($weight: regular){
+    font-family: $font-family-nunito;
+
+    @if $weight == regular {
+        font-weight: $font-regular;
+    } @else if $weight == semibold {
+        font-weight: $font-semibold;
+    } @else if $weight == bold {
+        font-weight: $font-bold;
+    }
+
+
+}

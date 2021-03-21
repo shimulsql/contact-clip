@@ -1,0 +1,55 @@
+// Authentication form design
+.custom-input-form-wrap.auth-form{
+    margin-top: 20px;
+    .custom-input-form{
+        &.bg-white{
+            background-color: $white;
+            padding: 30px 20px;
+            border-radius: $border-radius-lg;
+        }
+        // icon card
+        .left-icon-card{
+            background-color: transparent;
+            margin-bottom: 40px;
+            &::before{
+                display: none;
+            }
+            .icon{
+                width: 70px;
+                margin-right: 0;
+                i{
+                    font-size: 26px;
+                    background-color: $primary;
+                    border-radius: 50%;
+                }
+            }
+            .body{
+                .title{
+                    font-size: 1.3rem;
+                    margin-bottom: 5px;
+                    text-transform: uppercase;
+                }
+                .content{
+                    color: $primary-500;
+                }
+            }
+        }
+
+        // text & password input fields
+        .form-control{
+            // height: 48px;
+            font-size: 1.1rem;
+            border-color: $primary-500;
+            color: $primary;
+            background-color: $primary-100;
+        }
+
+        .input-group-text{
+            border-radius: 0 4px 4px 0;
+            border-color: $primary-500;
+            background-color: $primary;
+            color: $white
+        }
+
+    }
+}
