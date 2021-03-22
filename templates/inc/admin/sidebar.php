@@ -9,7 +9,7 @@
     </div>
     <div class="sidebar-items">
         <ul class="menu-items" id="sidebar-menu">
-            <li class="item <?php echo $pageActive == 'dashboard' ? 'active' : '' ?>">
+            <li class="item <?php echo $pageActive == 'dashboard' ? 'active-pg' : '' ?>">
                 <a class="title" href="<?php get_dir_url(); ?>admin/">
                 <i class="fad fa-tachometer-alt-fast"></i> 
                 <span>
@@ -17,7 +17,7 @@
                 </span>
                 </a>
             </li>
-            <li class="item <?php echo $pageActive == 'contact' ? 'active' : '' ?>">
+            <li class="item <?php echo $pageActive == 'contact' ? 'active-pg' : '' ?>">
                 <a class="title" href="#">
                 <i class="fad fa-address-card"></i> 
                 <span>
@@ -32,7 +32,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="item <?php echo $pageActive == 'group' ? 'active' : '' ?>">
+            <li class="item <?php echo $pageActive == 'group' ? 'active-pg' : '' ?>">
                 <a class="title" href="#">
                 <i class="fad fa-user-friends"></i> 
                 <span>

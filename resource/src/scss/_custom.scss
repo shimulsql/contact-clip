@@ -190,6 +190,10 @@
                             margin-right: 6px;
                         }
                     }
+                    &.active-pg{
+                        background-color: $primary;
+                    }
+
                     &.active{
                         background-color: $sidebar-active;
 

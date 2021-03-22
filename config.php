@@ -9,4 +9,10 @@
     define('SITETITLE', ' Contact Clip');
     
 
+    // database config 
+    define('DB_NAME', 'contact-clip-db');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
+    define('DB_HOST', 'localhost');
+
 ?>
