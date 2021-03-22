@@ -15,7 +15,7 @@
           <div class="custom-input-form-wrap ">
             <div class="container">
               <div class="admin-content bg-white">
-                <form class="custom-input-form" action="">
+                <form class="custom-input-form" action="" method="POST">
                   <div class="row">
                     <div class="col-md-8 col-sm-12 order-2 order-md-1">
                       <div class="form-group">
@@ -51,6 +51,7 @@
                         </div>
                       </div>
                       <div class="">
+                        <input type="hidden" name="_create">
                         <input type="submit" value="Add to contact" class="btn btn-primary btn-block">
                       </div>
                     </div>

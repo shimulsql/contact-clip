@@ -29,4 +29,13 @@ use App\Core\View;
          echo URLROOT;
      }
 
+     /**
+     * security
+     */
+
+     function app_secret(){
+         return APPSECRET;
+     }
+
+
 ?>

@@ -7,7 +7,9 @@
 
     // site config
     define('SITETITLE', ' Contact Clip');
-    
+
+    // secret keys
+    define('APPSECRET', 'Shimul1234');
 
     // database config 
     define('DB_NAME', 'contact-clip-db');

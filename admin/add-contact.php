@@ -10,7 +10,22 @@
     });
 
 
-    
+    // receive requests
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        // create contact
+        if(isset($_REQUEST['_create'])){
+            echo "Contact created";
+        }
+
+        // update contact
+        if(isset($_REQUEST['_update'])){
+
+        }
+
+
+    }
 
 
 
