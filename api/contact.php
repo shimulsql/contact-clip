@@ -7,8 +7,6 @@
 
     $api = new ApiHandler();
 
-
-
     $api->post(function($model){
         $data = $model->create($_POST);
 
