@@ -14,3 +14,8 @@
              echo "Variable not exists";
          }
      }
+
+
+     /**
+     * error handler
+     */

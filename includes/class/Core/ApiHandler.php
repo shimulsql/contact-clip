@@ -25,6 +25,7 @@
 
 
             private function filter_request($callback, $request, $model){
+
                 if(!isset($_REQUEST['secret']) || $_REQUEST['secret'] != APPSECRET){
                     if($this->secure){
 
@@ -121,7 +122,7 @@
 
 
             public function encode($array){
-                return json_encode($array);
+                echo json_encode($array);
             }
 
                     
@@ -132,7 +133,7 @@
              * @return string - return string as json
              */
 
-            protected function error_handler($array){
+            public function error_handler($array){
                 $error = array(
                     'error' => $array
                 );

@@ -33,5 +33,44 @@
             return $this->stmt->execute();
         }
 
+        public function bind($param, $value, $type = null){
+            if(is_null($type)){
+                switch (true) {
+                    case is_int($value):
+                        $type = PDO::PARAM_INT;
+                        break;
+
+                    case is_bool($value):
+                        $type = PDO::PARAM_BOOL;
+                        break;
+
+                    case is_null($value):
+                        $type = PDO::PARAM_NULL;
+                        break;
+                    default: 
+                        $type = PDO::PARAM_STR;
+                }
+            }
+            $this->stmt->bindValue($param, $value, $type);
+            
+        }
+
+
+        public function resultSet(){
+            $this->stmt->execute();
+            return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        }
+
+
+        public function single(){
+            $this->stmt->execute();
+            return $this->stmt->fetch(PDO::FETCH_OBJ);
+        }
+
+        public function rowCount(){
+            $this->stmt->execute();
+            return $this->stmt->rowCount();
+        }
+
         
     }
