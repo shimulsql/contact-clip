@@ -5,12 +5,16 @@
     class ApiHandler{
             public $secure = true;
             protected $process = true;
+            protected $access_token;
 
             public function __construct()
             {
                 // header cotent type json to receive the response as JSON format
                 header('Content-type: application/json');
 
+                // get the access token from header
+                $header = getallheaders();
+                $this->access_token = $header['Access-Token'];
             }
             
             
@@ -25,8 +29,8 @@
 
 
             private function filter_request($callback, $request, $model){
-
-                if(!isset($_REQUEST['secret']) || $_REQUEST['secret'] != APPSECRET){
+                // access token is provided in header as api key
+                if(strlen($this->access_token) <= 0){
                     if($this->secure){
 
                         // unauthorize status
@@ -35,11 +39,27 @@
                         // return error
                         $this->error_handler(array(
                             'issue' => 'security',
-                            'message' => 'Invalid or missing secret key. To make this request successful please provide a authentic secret key'
+                            'message' => 'Missing access token. To make this request successful please provide a authentic access token'
                         ));
+                        // stop processing
                         $this->process = false;
                     }
 
+                }
+
+                // valid access token
+                if(!authToken()->valid_token($this->access_token)){
+                    // unauthorize status
+                    http_response_code(401);
+
+                    // return error
+                    $this->error_handler(array(
+                        'issue' => 'security',
+                        'message' => 'Invalid access token. To make this request successful please provide a authentic access token'
+                    ));
+
+                    // stop processing
+                    $this->process = false;
                 }
 
                 // if everything is ok then process the request

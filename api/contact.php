@@ -10,5 +10,5 @@
     $api->post(function($model){
         $data = $model->create($_POST);
 
-        echo json_encode($data);
+        
     }, new Contact);

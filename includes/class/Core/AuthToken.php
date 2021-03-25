@@ -132,10 +132,21 @@
 
         public function access_token($response){
             $token_column = $this->token_col;
-            
+
             if(isset($response['response'])){
                 echo json_encode(array('access_token' => $response['response']->$token_column));
             }
+        }
+
+        public function valid_token($token){
+            $this->query('SELECT * FROM '. $this->token_table .' WHERE '. $this->token_col .' = :token');
+            $this->bind(':token', $token);
+
+            if($this->rowCount() > 0){
+                return true;
+            }
+            
+            return false;
         }
 
         public function make_success($response){
