@@ -14,7 +14,10 @@
 
                 // get the access token from header
                 $header = getallheaders();
-                $this->access_token = $header['Access-Token'];
+                if(isset($header['Access-Token'])){
+                    $this->access_token = $header['Access-Token'];
+                }
+                
             }
             
             
@@ -30,12 +33,12 @@
 
             private function filter_request($callback, $request, $model){
                 // access token is provided in header as api key
-                if(strlen($this->access_token) <= 0){
-                    if($this->secure){
+                if($this->secure){
+                    if(strlen($this->access_token) <= 0){
 
                         // unauthorize status
                         http_response_code(401);
-
+    
                         // return error
                         $this->error_handler(array(
                             'issue' => 'security',
@@ -43,24 +46,25 @@
                         ));
                         // stop processing
                         $this->process = false;
+    
                     }
-
+    
+                    // valid access token
+                    if(!authToken()->valid_token($this->access_token)){
+                        // unauthorize status
+                        http_response_code(401);
+    
+                        // return error
+                        $this->error_handler(array(
+                            'issue' => 'security',
+                            'message' => 'Invalid access token. To make this request successful please provide a authentic access token'
+                        ));
+    
+                        // stop processing
+                        $this->process = false;
+                    }
                 }
-
-                // valid access token
-                if(!authToken()->valid_token($this->access_token)){
-                    // unauthorize status
-                    http_response_code(401);
-
-                    // return error
-                    $this->error_handler(array(
-                        'issue' => 'security',
-                        'message' => 'Invalid access token. To make this request successful please provide a authentic access token'
-                    ));
-
-                    // stop processing
-                    $this->process = false;
-                }
+                
 
                 // if everything is ok then process the request
 
@@ -122,8 +126,14 @@
              */
 
             public function put($callback, $model = null){
-                if($_SERVER['REQUEST_METHOD'] == 'PUT'){
-                    echo $callback($model);
+                if($_SERVER['REQUEST_METHOD'] == 'PUT' && $this->process){
+
+                    // filter the request
+                    $this->filter_request(function($callback, $model){
+
+                        $callback($model);
+
+                    }, $callback, $model);
                 }
             }
 
@@ -135,8 +145,14 @@
              * @return string - return string as json format
              */
             public function delete($callback, $model = null){
-                if($_SERVER['REQUEST_METHOD'] == 'PUT'){
-                    echo $callback($model);
+                if($_SERVER['REQUEST_METHOD'] == 'DELETE' && $this->process){
+
+                    // filter the request
+                    $this->filter_request(function($callback, $model){
+
+                        $callback($model);
+
+                    }, $callback, $model);
                 }
             }
 

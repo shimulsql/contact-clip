@@ -1,18 +1,21 @@
 <?php
 
-    require __DIR__ . '/load.php';
+use App\Database\Database;
 
-    // Page Title
+require __DIR__ . '/load.php';
     
     // Get Header
+
     get_header(function(){
         page_title('Home');
     });
     
-
+    
     view('frontend.home.index');
 
+    var_dump($user);
     get_footer();
+
 
 
 ?>

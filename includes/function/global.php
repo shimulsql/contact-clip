@@ -20,6 +20,9 @@ use App\Core\View;
      function get_asset_path(){
          echo ASSETS;
      }
+     function get_asset_url(){
+         echo ASSETS;
+     }
 
      function get_dir_path(){
          echo BASE;
@@ -28,6 +31,11 @@ use App\Core\View;
      function get_dir_url(){
          echo URLROOT;
      }
+     function app_url(){
+         return URLROOT;
+     }
+
+
 
      /**
      * security

@@ -18,8 +18,15 @@
             </a>
           
             <div class="dropdown-menu dropdown-menu-lg-right p-2" aria-labelledby="dropdownMenuLink">
+
+            <?php if(!is_auth()):?>
+
               <a class="dropdown-item btn btn-primary" href="<?php get_dir_url() ?>login.php">Login</a>
               <a class="dropdown-item btn btn-primary" href="<?php get_dir_url() ?>register.php">Register</a>
+
+            <?php elseif(is_auth()): ?>
+
+              <a class="dropdown-item btn btn-primary" href="#" id="logout-button"><i class="fad fa-sign-out"></i> Logout</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="<?php _e(URLROOT); ?>admin/index.php">
                 <div class="left-icon-card">
@@ -31,9 +38,12 @@
                   </div>
                 </div>
               </a>
+
+            <?php endif;?>
+
             </div>
           </div>
         </div>
       </div>
-    </nav>
+</nav>
     <!-- Navigation end -->

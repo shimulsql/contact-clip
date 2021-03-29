@@ -6,7 +6,7 @@
         <div class="container">
           <div class="d-section-heading">
             <i class="far fa-ellipsis-v"></i> 
-            Contact List
+            Contact List - <?php echo auth()->user()->name; ?>
           </div>
           <!-- Contents start -->
           <?php view('backend.dashboard.list'); ?>

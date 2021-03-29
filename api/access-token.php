@@ -13,12 +13,12 @@
         $response = $auth->get_token();
 
         // any kind of error
-        if(authToken()->is_error($response)){
+        if(error()->is_error($response)){
             api()->error_handler($response['response']);
         }
 
         // successful response
-        if(authToken()->is_success($response)){
+        if(error()->is_success($response)){
             authToken()->access_token($response);
         }
 

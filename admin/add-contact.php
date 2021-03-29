@@ -2,6 +2,9 @@
 
     require_once __DIR__ . '/../load.php';
 
+    // access protection
+    auth()->protect(); 
+    
     use App\Model\Contact;
     $contact = new Contact;
 
