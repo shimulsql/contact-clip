@@ -24,7 +24,7 @@
                         <input type="password" name="password" id="login-password" placeholder="Password" class="form-control">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
-                            <i class="fal fa-eye"></i>
+                                <i style="cursor: pointer;" id="show-password" class="fas fa-eye-slash"></i>
                             </div>
                         </div>
                     </div>

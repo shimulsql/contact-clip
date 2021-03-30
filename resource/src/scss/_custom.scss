@@ -30,6 +30,9 @@
             position: absolute;
         }
         .left-icon-card{
+            &::before{
+                display: none;
+            }
             margin: 0;
             background-color: transparent;
             align-items: baseline;

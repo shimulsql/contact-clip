@@ -17,6 +17,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_menu_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_js_menu_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _js_file_upload_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/file-upload.js */ "./resource/src/js/file-upload.js");
 /* harmony import */ var _js_auth_login_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/auth/login.js */ "./resource/src/js/auth/login.js");
+/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/auth/form.js */ "./resource/src/js/auth/form.js");
+/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_js_auth_form_js__WEBPACK_IMPORTED_MODULE_5__);
 // // scss import
 // require('./scss/index.scss');
 // // import fonts
@@ -29,6 +31,37 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+/***/ }),
+
+/***/ "./resource/src/js/auth/form.js":
+/*!**************************************!*\
+  !*** ./resource/src/js/auth/form.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+$(document).ready(function () {
+  /**
+   * show/hide password field - login page
+  */
+  var passInput = $('#login-password');
+  var showBtn = $('#show-password');
+  var eyeOpen = 'fa-eye';
+  var eyeClose = 'fa-eye-slash';
+  showBtn.click(function () {
+    if (passInput.attr('type') == 'text') {
+      // hide
+      passInput.attr('type', 'password');
+      showBtn.removeClass(eyeOpen).addClass(eyeClose);
+    } else if (passInput.attr('type') == 'password') {
+      // show
+      passInput.attr('type', 'text');
+      showBtn.removeClass(eyeClose).addClass(eyeOpen);
+    }
+  });
+});
 
 /***/ }),
 

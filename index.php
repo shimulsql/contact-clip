@@ -13,7 +13,6 @@ require __DIR__ . '/load.php';
     
     view('frontend.home.index');
 
-    var_dump($user);
     get_footer();
 
 

@@ -14443,6 +14443,9 @@ h3 {
   align-items: baseline;
   padding: 0;
 }
+.custom-nav-admin .dropdown-menu .left-icon-card::before {
+  display: none;
+}
 .custom-nav-admin .dropdown-menu .left-icon-card .icon {
   width: 30px;
   margin: 0;
