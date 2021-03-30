@@ -10,17 +10,16 @@
         }
         public function set($name, $value, $time = null){
             if(!isset($_COOKIE[$name])){
-                return setcookie($name, $value, $time);
+                setcookie($name, $value, $time, '/');
             }
         }
         public function isset($name){
             if(isset($_COOKIE[$name])){
                 return true;
             }
+            return false;
         }
         public function destroy($name){
-            if(isset($_COOKIE[$name])){
-                return setcookie($name, '' , time() - 999999999);
-            }
+            setcookie($name, '' , time() - 3600);
         }
     }

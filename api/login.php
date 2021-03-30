@@ -1,6 +1,6 @@
 <?php
     require_once __DIR__ . '/../load.php';
-
+    
 
     use App\Core\ApiHandler;
     use App\Model\Auth\Login;
@@ -18,8 +18,11 @@
 
 
 
+    
     $api->delete(function($login){
-        
+
+        // setcookie('access_token', '', time() - 3600, '/');
+
         $response = $login->logout();
 
         api()->encode($response);

@@ -30,8 +30,8 @@
                     </div>
                 </div>
                 <div class="form-check form-check-inline mb-2">
-                    <input type="checkbox" name="remember" class="form-check-input" id="remember_me">
-                    <label class="form-check-label" for="remember_me">Remember me</label>
+                    <input type="checkbox" name="keep-login" class="form-check-input" id="keep-login" value="yes">
+                    <label class="form-check-label" for="keep-login">Keep logged in</label>
                 </div>
                 <div class="form-group">
                     <input type="submit" id="login-button" class="btn btn-primary btn-block" value="Login">

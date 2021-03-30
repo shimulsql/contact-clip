@@ -81,17 +81,28 @@ $(document).ready(function () {
   var form = $('#login-form');
   var email = $('#login-email');
   var password = $('#login-password');
+  var keepLogin = $('#keep-login');
   var btnLogin = $('#login-button');
   var disRes = $('.display-response');
+  var keepUser;
   btnLogin.click(function (e) {
+    if (keepLogin.is(':checked')) {
+      keepUser = true;
+    } else {
+      keepUser = false;
+    }
+
     $.ajax({
       method: 'POST',
       url: (0,_config_url_js__WEBPACK_IMPORTED_MODULE_0__.get_api_url)('login.php'),
       data: {
         email: email.val(),
-        password: password.val()
+        password: password.val(),
+        keep_login: keepUser
       }
     }).done(function (res) {
+      console.log(res);
+
       if (res.status == 'error') {
         form.addClass('animate__shakeX');
         setTimeout(function () {

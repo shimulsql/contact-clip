@@ -23,44 +23,46 @@
         {
             $this->session->session_init();
 
+            $token = $this->cookie->get('access_token');
 
-            // $token = $this->cookie->get('access_token');
-
-            // if(!$this->is_logged_in()){
-            //     if($this->cookie->isset('access_token')){
-            //         if($this->authToken->valid_token($token)){
-            //             $user = $this->authToken->get_user_by_token($token);
-            //             $this->session->set('logged_in', true);
-            //             $this->session->set('logged_user', $user);
-            //         }else{
-            //             $this->session->set('logged_in', false);
-            //             $this->cookie->destroy('access_token');
-            //         }
-            //     }
+            if(!$this->is_logged_in()){
+                if($this->cookie->isset('access_token')){
+                    if($this->authToken->valid_token($token)){
+                        $user = $this->authToken->get_user_by_token($token);
+                        $this->login($user);
+                    }else{
+                        $this->logout();
+                    }
+                }
                 
-            // }
-            // else
-            // {
-            //     if(!$this->authToken->valid_token($token)){
-            //         $this->session->set('logged_in', false);
-            //         $this->cookie->destroy('access_token');
-            //     }
-            // }
-
-
-
+            }
+            else
+            {
+                if($token != null && !$this->authToken->valid_token($token)){
+                    $this->logout();
+                }
+            }
 
         }
-        public function login($user){
+
+        public function login($user, $keep = false)
+        {
             $this->session->set('logged_in', true);
             $this->session->set('logged_user', $user);
+
+            if($keep){
+                $token = $this->authToken->get_user_token($user->id);
+                $this->cookie->set('access_token', $token->token, time() + 3600);
+            }
+
             return true;
         }
 
-        public function logout(){
+        public function logout()
+        {
+            setcookie('access_token', '', time() - 3600, '/');
             $this->session->unset('logged_in');
             $this->session->unset('logged_user');
-            $this->cookie->destroy('access_token');
         }
 
         public function protect()
@@ -70,13 +72,15 @@
             }
         }
 
-        public function user(){
+        public function user()
+        {
             if($this->is_logged_in()){
                 return $this->session->get('logged_user');
             }
         }
 
-        public function only_guest(){
+        public function only_guest()
+        {
             if($this->is_logged_in()){
                 $this->redirect_admin();
             }
@@ -84,7 +88,7 @@
 
         public function is_logged_in()
         {
-            if($this->session->isset('logged_in'))
+            if($this->session->isset('logged_in') && $this->session->get('logged_in') == true)
             {
                 return true;
             }
@@ -94,11 +98,13 @@
             }
         }
 
-        public function redirect_login(){
+        public function redirect_login()
+        {
             header('Location: '. app_url() .'login.php');
         }
 
-        public function redirect_admin(){
+        public function redirect_admin()
+        {
             header('Location: '. app_url() .'admin/');
         }
 
@@ -110,7 +116,8 @@
          * @return object
          */
 
-        public function get_user($email, $password){
+        public function get_user($email, $password)
+        {
             
             $this->db->query('SELECT * FROM user WHERE email = :email AND password = :password');
             $this->db->bind(':email', $email);
@@ -127,7 +134,8 @@
          * @return bool
          */
 
-        public function user_exists($email, $password){
+        public function user_exists($email, $password)
+        {
             
             $this->db->query('SELECT id FROM user WHERE email = :email AND password = :password');
             $this->db->bind(':email', $email);

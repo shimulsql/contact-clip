@@ -75,7 +75,9 @@
          * @param  string $field - column name. default is token. you can write multiple column name separated by comma example: id, token
          * @return object
          */
-        protected function get_user_token($user_id, $field = 'token'){
+
+         
+        public function get_user_token($user_id, $field = 'token'){
             $this->db->query('SELECT * FROM '. $this->token_table .' WHERE user_id = :user_id');
             $this->db->bind(':user_id', $user_id);
 
@@ -176,7 +178,7 @@
             $this->db->query('SELECT user_id FROM '. $this->token_table .' WHERE '. $this->token_col .' = :token');
             $this->db->bind(':token', $token);
 
-            $user_id = $this->single()->user_id;
+            $user_id = $this->db->single()->user_id;
 
             $this->db->query('SELECT * FROM '. $this->user_table .' WHERE id = :user_id');
             $this->db->bind(':user_id', $user_id);
