@@ -9,6 +9,6 @@
 
     $api->post(function($model){
         $data = $model->create($_POST);
-
+        
         
     }, new Contact);

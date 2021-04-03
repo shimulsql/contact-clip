@@ -10,12 +10,7 @@ require __DIR__ . '/load.php';
         page_title('Home');
     });
     
-    
     view('frontend.home.index');
-
-
-    echo cookie()->get('access_token');
-    
 
     get_footer();
 

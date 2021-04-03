@@ -17,6 +17,7 @@
             $dsn = 'mysql:host=' . $this->db_host . '; dbname=' . $this->db_name;
             try{
                 $this->connection = new PDO($dsn, $this->db_user, $this->db_pass);
+                $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             catch (PDOException $e){
                 echo '<h1>Error to Establishing Database Connection</h1>';
