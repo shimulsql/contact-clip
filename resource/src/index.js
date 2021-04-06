@@ -17,6 +17,7 @@ import '/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import './js/menu.js';
 import './js/file-upload.js';
 import './js/auth/login.js';
+import './js/auth/register.js';
 import './js/auth/form.js';
 
 

@@ -4,9 +4,9 @@
 
 
     use App\Model\Model;
-use PDOException;
+    use PDOException;
 
-class Register extends Model{
+    class Register extends Model{
 
 
         public function create($req){
@@ -39,6 +39,7 @@ class Register extends Model{
                     if($this->db->execute()){
                         return error()->make_success('Registration successful');
                     }
+                    
                 }
                 catch(PDOException $e)
                 {

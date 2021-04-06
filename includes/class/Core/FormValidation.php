@@ -90,7 +90,7 @@
                     // required field
                     case 'required':
                         if(strlen($data) <= 0){
-                            $this->setError($dataProp, $dataProp .' is required');
+                            $this->setError($dataProp, self::capRU($dataProp) .' is required');
                         }
                     break;
 
@@ -122,7 +122,7 @@
                     case 'match':
 
                         if(strlen($data) > 0 && $data != $this->formData[$value]){
-                            $this->setError($dataProp, $value. ' not matched');
+                            $this->setError($dataProp, self::capRU($value). ' not matched');
                         }
 
                     break;
@@ -161,7 +161,7 @@
                         $rowCount = $this->db->rowCount();
 
                         if($rowCount > 0){
-                            $this->setError($dataProp, $dataProp .' already exists');
+                            $this->setError($dataProp, self::capRU($dataProp) .' already exists');
                         }
 
                     break;
@@ -224,6 +224,23 @@
         {
             $this->errors[$field] = $msg; 
         }
+        
+        /**
+         * capRU - capitalize value and remove underscore
+         *
+         * @param  string $value
+         * @return void
+         */
+        protected static function capRU($value){
+            $rmus = str_replace('_', ' ', $value);
+
+            $arrStr = str_split($rmus);
+            $arrStr[0] = strtoupper($arrStr[0]);
+
+            return implode('', $arrStr);
+        }
+
+
 
 
         

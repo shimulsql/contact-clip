@@ -17,8 +17,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_menu_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_js_menu_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _js_file_upload_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/file-upload.js */ "./resource/src/js/file-upload.js");
 /* harmony import */ var _js_auth_login_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/auth/login.js */ "./resource/src/js/auth/login.js");
-/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/auth/form.js */ "./resource/src/js/auth/form.js");
-/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_js_auth_form_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _js_auth_register_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/auth/register.js */ "./resource/src/js/auth/register.js");
+/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/auth/form.js */ "./resource/src/js/auth/form.js");
+/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_js_auth_form_js__WEBPACK_IMPORTED_MODULE_6__);
 // // scss import
 // require('./scss/index.scss');
 // // import fonts
@@ -27,6 +28,7 @@ __webpack_require__.r(__webpack_exports__);
  // import bootstrap js
 
  // custom js import
+
 
 
 
@@ -142,6 +144,78 @@ $(document).ready(function () {
     });
     e.preventDefault();
   });
+});
+
+/***/ }),
+
+/***/ "./resource/src/js/auth/register.js":
+/*!******************************************!*\
+  !*** ./resource/src/js/auth/register.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _config_url_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../config/url.js */ "./resource/src/js/config/url.js");
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+
+$(document).ready(function () {
+  var regForm = $('#register-form');
+  var displayStatus = $('.display-status');
+  var name = $('#name');
+  var email = $('#email');
+  var password = $('#password');
+  var c_password = $('#confirm_password');
+  regForm.submit(function (e) {
+    var gender = $('#gender input[name="gender"]:checked').val(); // remove feedback data
+
+    unsetFeedback();
+    $.ajax({
+      url: (0,_config_url_js__WEBPACK_IMPORTED_MODULE_0__.get_api_url)('register.php'),
+      method: 'post',
+      data: {
+        name: name.val(),
+        email: email.val(),
+        gender: gender == undefined ? '' : gender,
+        password: password.val(),
+        confirm_password: c_password.val()
+      }
+    }).done(function (res) {
+      console.log(res); // if error
+
+      if (res.status == 'error') {
+        $.each(res.response, function (key, value) {
+          var element = $('#' + key);
+          var feedback = $(element.parent().children('.invalid-feedback'));
+          element.addClass('is-invalid');
+          feedback.text(value);
+        });
+      } // if success
+
+
+      if (res.status == 'success') {
+        // display success message
+        successFeedback(res.response);
+      }
+    });
+    e.preventDefault();
+  });
+
+  function unsetFeedback() {
+    var forms = $('#register-form input[name]');
+    $.each(forms, function (index, element) {
+      $(element).removeClass('is-invalid');
+    });
+    $('#gender').removeClass('is-invalid');
+  }
+
+  function successFeedback(data) {
+    displayStatus.text(data).fadeIn().delay(3000).fadeOut();
+    var forms = $('#register-form input[name]');
+    $.each(forms, function (index, element) {
+      $(element).val('');
+    });
+  }
 });
 
 /***/ }),

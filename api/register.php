@@ -7,7 +7,8 @@
     use App\Model\Auth\Register;
 
     $api = new ApiHandler;
-
+    $api->secure = false;
+    
     $api->post(function($model){
 
         $request = $model->create($_POST);
