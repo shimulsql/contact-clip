@@ -46,7 +46,8 @@
 
                 if($logged_in){
                     return error()->make_success([
-                        'message' => 'Logged in'
+                        'message' => 'Logged in',
+                        'access_token' => authToken()->get_user_token($user->id)->token
                     ]);
                 }
 

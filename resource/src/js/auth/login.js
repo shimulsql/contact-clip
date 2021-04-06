@@ -1,6 +1,7 @@
 // import $ from "jQuery"
 
-import {get_api_url, redir_login, redir_logout} from './../config/url.js'
+import {get_api_url, redir_login, redir_logout} from './../config/url.js';
+import {store} from './../helper/storage.js';
 
 $(document).ready(function(){
 
@@ -64,6 +65,18 @@ $(document).ready(function(){
             
 
             if(res.status == 'success'){
+                /**
+                 * set accessToken to LocalStorage
+                 */
+                var token = res.response.access_token;
+
+                if(store.isset('access_token')){
+                    store.update('access_token', token);
+                }else{
+                    store.set('access_token', token);
+                }
+
+
                 disRes
                 .removeClass('alert-danger')
                 .addClass('alert-success')
@@ -95,6 +108,7 @@ $(document).ready(function(){
         .done(function(res){
 
             if(res.status == 'success'){
+                store.delete('access_token');
                 window.location = redir_logout;
             }
 
@@ -104,3 +118,4 @@ $(document).ready(function(){
     });
 
 });
+

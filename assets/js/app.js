@@ -13,13 +13,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_jquery_dist_jquery_min_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_dist_jquery_min_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_bootstrap_dist_js_bootstrap_bundle_min_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js */ "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js");
 /* harmony import */ var _node_modules_bootstrap_dist_js_bootstrap_bundle_min_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_bootstrap_dist_js_bootstrap_bundle_min_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _js_menu_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/menu.js */ "./resource/src/js/menu.js");
-/* harmony import */ var _js_menu_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_js_menu_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _js_file_upload_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/file-upload.js */ "./resource/src/js/file-upload.js");
-/* harmony import */ var _js_auth_login_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/auth/login.js */ "./resource/src/js/auth/login.js");
-/* harmony import */ var _js_auth_register_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/auth/register.js */ "./resource/src/js/auth/register.js");
-/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/auth/form.js */ "./resource/src/js/auth/form.js");
-/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_js_auth_form_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _js_helper_storage_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/helper/storage.js */ "./resource/src/js/helper/storage.js");
+/* harmony import */ var _js_menu_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/menu.js */ "./resource/src/js/menu.js");
+/* harmony import */ var _js_menu_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_js_menu_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _js_file_upload_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/file-upload.js */ "./resource/src/js/file-upload.js");
+/* harmony import */ var _js_auth_login_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/auth/login.js */ "./resource/src/js/auth/login.js");
+/* harmony import */ var _js_auth_register_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/auth/register.js */ "./resource/src/js/auth/register.js");
+/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/auth/form.js */ "./resource/src/js/auth/form.js");
+/* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_js_auth_form_js__WEBPACK_IMPORTED_MODULE_7__);
 // // scss import
 // require('./scss/index.scss');
 // // import fonts
@@ -28,6 +29,7 @@ __webpack_require__.r(__webpack_exports__);
  // import bootstrap js
 
  // custom js import
+
 
 
 
@@ -76,8 +78,10 @@ $(document).ready(function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_url_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../config/url.js */ "./resource/src/js/config/url.js");
+/* harmony import */ var _helper_storage_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../helper/storage.js */ "./resource/src/js/helper/storage.js");
 /* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 // import $ from "jQuery"
+
 
 $(document).ready(function () {
   var form = $('#login-form');
@@ -123,6 +127,17 @@ $(document).ready(function () {
       }
 
       if (res.status == 'success') {
+        /**
+         * set accessToken to LocalStorage
+         */
+        var token = res.response.access_token;
+
+        if (_helper_storage_js__WEBPACK_IMPORTED_MODULE_1__.store.isset('access_token')) {
+          _helper_storage_js__WEBPACK_IMPORTED_MODULE_1__.store.update('access_token', token);
+        } else {
+          _helper_storage_js__WEBPACK_IMPORTED_MODULE_1__.store.set('access_token', token);
+        }
+
         disRes.removeClass('alert-danger').addClass('alert-success').fadeIn().text('Successfully logged in, redirecting to dashboard..');
         setTimeout(function () {
           window.location = _config_url_js__WEBPACK_IMPORTED_MODULE_0__.redir_login;
@@ -139,6 +154,7 @@ $(document).ready(function () {
       url: (0,_config_url_js__WEBPACK_IMPORTED_MODULE_0__.get_api_url)('login.php')
     }).done(function (res) {
       if (res.status == 'success') {
+        _helper_storage_js__WEBPACK_IMPORTED_MODULE_1__.store.delete('access_token');
         window.location = _config_url_js__WEBPACK_IMPORTED_MODULE_0__.redir_logout;
       }
     });
@@ -294,6 +310,63 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     e.preventDefault();
   });
 });
+
+/***/ }),
+
+/***/ "./resource/src/js/helper/storage.js":
+/*!*******************************************!*\
+  !*** ./resource/src/js/helper/storage.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "store": () => (/* binding */ store)
+/* harmony export */ });
+/**
+ * 
+ * Local storage
+ */
+function Store() {
+  this.storage = window.localStorage;
+}
+
+Store.prototype.get = function (name) {
+  if (!this.isset(name)) {
+    return '"' + name + '" not found in LStorage';
+  }
+
+  return this.storage.getItem(name);
+};
+
+Store.prototype.set = function (name, value) {
+  if (!this.isset(name)) {
+    this.storage.setItem(name, value);
+  }
+};
+
+Store.prototype.update = function (name, value) {
+  if (this.isset(name)) {
+    this.storage.setItem(name, value);
+  }
+};
+
+Store.prototype["delete"] = function (name) {
+  if (this.isset(name)) {
+    this.storage.removeItem(name);
+  }
+};
+
+Store.prototype.isset = function (name) {
+  if (this.storage.getItem(name) != undefined) {
+    return true;
+  }
+
+  return false;
+};
+
+var store = new Store();
 
 /***/ }),
 
