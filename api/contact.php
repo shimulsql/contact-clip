@@ -8,7 +8,10 @@
     $api = new ApiHandler();
 
     $api->post(function($model){
-        $data = $model->create($_POST);
-        
+
+        $response = $model->create($_POST);
+
+        api()->encode($response);
+
         
     }, new Contact);

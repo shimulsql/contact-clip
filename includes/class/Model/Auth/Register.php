@@ -7,7 +7,7 @@
     use PDOException;
 
     class Register extends Model{
-
+        protected $table = 'user';
 
         public function create($req){
 
@@ -29,22 +29,7 @@
                 $validated['password'] = md5($validated['password']);
 
 
-                try
-                {
-                    $this->db->query('INSERT INTO user(name, email, gender, password) VALUES(:name, :email, :gender, :password)');
-                    $this->db->bind(':name', $validated['name']);
-                    $this->db->bind(':email', $validated['email']);
-                    $this->db->bind(':gender', $validated['gender']);
-                    $this->db->bind(':password', $validated['password']);
-                    if($this->db->execute()){
-                        return error()->make_success('Registration successful');
-                    }
-                    
-                }
-                catch(PDOException $e)
-                {
-                    return error()->make_error(array('db' => $e->getMessage()));
-                }
+                return $this->_create($validated);
             }
         }
 
