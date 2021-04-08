@@ -156,8 +156,8 @@
                     // unique in database table
                     case 'unique':
 
-                        $this->db->query('SELECT * FROM '. $value .' WHERE email = :email');
-                        $this->db->bind(':email', $data);
+                        $this->db->query('SELECT * FROM `'. $value .'` WHERE '. $dataProp .' = :prop');
+                        $this->db->bind(':prop', $data);
                         $rowCount = $this->db->rowCount();
 
                         if($rowCount > 0){
