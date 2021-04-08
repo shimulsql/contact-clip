@@ -33,7 +33,7 @@
             $table_cols =  $this->getTableColumns();
 
             // set table columns to $table_col property
-            $this->setTableCols($table_cols);
+            $this->setTableCols($table_cols, $req);
             
             // column name as string
             $cols_str = $this->tableColStr();
@@ -43,14 +43,16 @@
 
             
             // generate query
-            $query = "INSERT INTO $this->table($cols_str) VALUES($cols_placeholder)";
-
+            $query = "INSERT INTO `$this->table`($cols_str) VALUES($cols_placeholder)";
+            // var_dump($query);
             try{
                 $this->db->query($query);
 
                 // auto binding columns
                 foreach($this->table_cols as $col){
-                    $this->db->bind(':'. $col, $req[$col]);
+                    if(isset($req[$col])){
+                        $this->db->bind(':'. $col, $req[$col]);
+                    }
                 }
 
                 // insert data
@@ -100,14 +102,15 @@
          * @return null
          */
 
-        protected function setTableCols($cols){
-
-            // remove array first value because it's primary key 
-            array_shift($cols);
+        protected function setTableCols($cols, $req){
 
             // add to array from object
             foreach($cols as $col){
-                $this->table_cols[] = $col->COLUMN_NAME;
+                // only store columns which has given by request
+                if(isset($req[$col->COLUMN_NAME])){
+                    $this->table_cols[] = $col->COLUMN_NAME;
+                }
+                
             }
         }
         
