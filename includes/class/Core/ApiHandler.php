@@ -44,8 +44,11 @@
                             'issue' => 'security',
                             'message' => 'Missing access token. To make this request successful please provide a authentic access token'
                         ));
+
                         // stop processing
                         $this->process = false;
+
+                        die();
     
                     }
     
@@ -69,6 +72,13 @@
                 // if everything is ok then process the request
 
                 if($this->process){
+                    
+                    // if secure - set user to session
+                    if($this->secure){
+                        $user = authToken()->get_user_by_token($this->access_token);
+                        auth()->login($user);
+                    }
+                    
                     echo $callback($request, $model);
                 }
 
