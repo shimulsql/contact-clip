@@ -3,10 +3,20 @@
     namespace App\Core;
 
     use App\Database\Database;
+use PDOException;
 
-    class FormValidation{
+class FormValidation{
+
+        /** Allegation form data */
         protected $formData = []; 
+
+        /** This form will be returned after validation */
+        protected $returnForm = [];
+
+        /** Error storage */
         protected $errors = []; 
+
+        /** Database */
         protected $db;
 
         // special characters , case insensitive
@@ -48,6 +58,8 @@
 
                     // validate form data
                     $this->validateWithRules($fieldData, $extractedRules, $dataProp);
+
+                    $this->returnForm[$dataProp] = $fieldData;
                 }
                 else
                 {
@@ -64,7 +76,7 @@
 
 
             // if everything ok
-            return $this->formData;
+            return $this->returnForm;
 
         }
 
@@ -225,6 +237,8 @@
                         }
 
                     break;
+
+                    
 
                     default:
                        
