@@ -1,41 +1,113 @@
 <?php
     namespace App\Core\FileSystem;
 
+    use PDOException;
 
     class ImageHandler{
 
-        public     $upload_dir = BASE . 'resource/uploads/';
-        protected  $imageInfo = [];
-        protected  $support  = ['.jpg', '.jpeg', '.png'];
+        /** All images will be uploaded in this location */
+        protected   $upload_dir = BASE . 'resource/uploads/';
 
-        protected  $image;
+        /** Image informations */
+        protected   $imageInfo = [];
+
+        /** Supported format */
+        public      $supports  = ['.jpg', '.jpeg', '.png'];
+
+        /** Resize entries */
+        public      $resizes = ['md' => 800, 'sm' => 400, 'xs' => 150];
+
+        /** resource image */
+        protected   $image;
+
+
+                
+        /**
+         * Process the image
+         *
+         * @param  resource $image
+         * @return string image name
+         */
 
         public function process($image){
 
-            $this->extractInfo($image);
 
-            $this->createImage();
+            if($image['size'] > 0)
+            {
+                // extract all image information
+                $this->extractInfo($image);
 
-            /**
-             * Resize image in various sizes
-             */
 
-             // original size
-            $imagname = $this->resize();
+                if(in_array($this->get('ext'), $this->supports)){
 
-            // width: 800 medium
-            $this->resize(800, $imagname . '-md');
+                    // create image by mime type
+                    $this->createImage();
 
-            // width: 400, small
-            $this->resize(400, $imagname . '-sm');
+                    /*
+                    -------------------------------        
+                     Resize image in various sizes      
+                    -------------------------------
+                    */
 
-            // width: 150, extra small
-            $this->resize(150, $imagname . '-xs');
+                    // original size
+                    $imagname = $this->resize();
 
-            return $imagname . $this->get('ext');
+                    // resizing from resize entries
+                    foreach($this->resizes as $key => $value){
+                        $this->resize($value, $imagname . '-'. $key);
+                    }
+
+                    // return image name
+                    return $imagname . $this->get('ext');
+                }
+                else
+                {
+                    return error()->make_error('Only support these formats: '. implode(', ', $this->supports));
+                }
+                
+            }
+            else{
+                return false;
+            }
+
+        }
+        
+        /**
+         * removeImage - Remove image from server
+         *
+         * @param  string $filename
+         * @return null
+         */
+
+        public function remove($filename){
+
+            $extracted_filename = explode('.', $filename);
+            $onlyName = reset($extracted_filename);
+            $extension = '.'. end($extracted_filename);
+
+            // remove original file
+            if(file_exists($this->upload_dir . $filename))
+            {
+                unlink($this->upload_dir . $filename);
+            }
+
+            foreach($this->resizes as $key => $value){
+                $filepath = $this->upload_dir . $onlyName .'-'. $key . $extension;
+                if(file_exists($filepath)){
+                    unlink($filepath);
+                }
+            }
 
         }
 
+        
+        /**
+         * Upload file to server
+         *
+         * @param  resource $image
+         * @param  string $name
+         * @return null
+         */
 
         protected function upload($image, $name){
 
@@ -57,6 +129,14 @@
             }
         }
 
+        
+        /**
+         * resize image
+         *
+         * @param  int $newWidth
+         * @param  string $name
+         * @return string image name
+         */
 
         protected function resize($newWidth = null, $name = null){
 
@@ -97,7 +177,13 @@
 
 
 
-
+        
+        /**
+         * Extract image information and store to $imageInfo property
+         *
+         * @param  resource $image
+         * @return null
+         */
         protected function extractInfo($image){
             $temp_arr = [];
 
@@ -119,6 +205,12 @@
 
             $this->imageInfo = $temp_arr;
         }
+        
+        /**
+         * create blank image from input image
+         *
+         * @return null
+         */
 
         protected function createImage(){
             switch ($this->get('mime')) {
