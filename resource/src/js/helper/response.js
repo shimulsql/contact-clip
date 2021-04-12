@@ -24,20 +24,22 @@ ResponseHandler.prototype.hasError = function(){
     return false;
 }
 
-ResponseHandler.prototype.success = function(msg = null){
+ResponseHandler.prototype.success = function(callback, msg = null){
 
     this.emptyFields();
-
+    // 
+    callback();
     (msg == null) ? this.display.text(this.data.response) : this.display.text(msg);
 
     this.display
-    .addClass('alert-success')
+    .addClass('alert alert-success')
     .fadeIn()
     .delay(this.alertTime)
     .fadeOut()
 
     setTimeout(() => {
-        this.display.text('');
+        this.display.text('')
+        .removeClass('alert alert-success');
     }, this.alertTime + 500)
 
 
@@ -48,7 +50,13 @@ ResponseHandler.prototype.success = function(msg = null){
 ResponseHandler.prototype.failed = function(){
     if(this.hasError()){
         $.each(this.data.response, (key, value) => {
-            var element = this.form.find('input[name='+ key +']');
+            var element;
+            if(this.form.find('input[name='+ key +']').length > 0){
+                element = this.form.find('input[name='+ key +']');
+            }
+            if(this.form.find('select[name='+ key +']').length > 0){
+                element = this.form.find('select[name='+ key +']');
+            }
             var feedbackEL = $(element.parent().children(this.feedbackClass));
             element.addClass('is-invalid');
             feedbackEL.text(value);
@@ -65,12 +73,21 @@ ResponseHandler.prototype.unsetFeedback = function(){
 
 ResponseHandler.prototype.emptyFields = function(){
     this.fetchInputs((el) => {
+        console.log(el)
         el.val('');
     });
 }
 
 ResponseHandler.prototype.fetchInputs = function(cb){
-    var forms = this.form.find('input[name]');
+    var inputs;
+    var selects;
+    if(this.form.find('input[name]').length > 0){
+        inputs = this.form.find('input[name]');
+    }
+    if(this.form.find('select[name]').length > 0){
+        selects = this.form.find('select[name]');
+    }
+    var forms = [...inputs, ...selects];
 
     $.each(forms, (i, element) => {
         var feedbackEL = $($(element).parent().children(this.feedbackClass));
