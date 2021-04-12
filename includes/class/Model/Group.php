@@ -21,6 +21,18 @@
             }
         }
 
+        public function get_groups($userID){
+            $this->db->query('SELECT * FROM `group` WHERE user_id = :userid');
+            $this->db->bind(':userid', $userID);
+
+            if($this->db->rowCount() > 0){
+                return $this->db->resultSet();
+            }
+            else{
+                return error()->make_error('No groups created');
+            }
+        }
+
 
 
     }

@@ -21,6 +21,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_auth_register_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/auth/register.js */ "./resource/src/js/auth/register.js");
 /* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/auth/form.js */ "./resource/src/js/auth/form.js");
 /* harmony import */ var _js_auth_form_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_js_auth_form_js__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _js_data_handle_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/data-handle.js */ "./resource/src/js/data-handle.js");
 // // scss import
 // require('./scss/index.scss');
 // // import fonts
@@ -29,6 +30,7 @@ __webpack_require__.r(__webpack_exports__);
  // import bootstrap js
 
  // custom js import
+
 
 
 
@@ -261,6 +263,116 @@ function get_api_url(endpoint) {
 
 /***/ }),
 
+/***/ "./resource/src/js/data-handle.js":
+/*!****************************************!*\
+  !*** ./resource/src/js/data-handle.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _config_url_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./config/url.js */ "./resource/src/js/config/url.js");
+/* harmony import */ var _helper_response_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helper/response.js */ "./resource/src/js/helper/response.js");
+/* harmony import */ var _helper_storage_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper/storage.js */ "./resource/src/js/helper/storage.js");
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+
+
+
+/*
+,-----------------------------------,
+|   Group Data Handle               |
+'-----------------------------------'
+*/
+
+/** Insert Data */
+
+$(document).ready(function () {
+  var form = $('#group-form');
+  var name = form.find('input[name="name"]');
+  form.submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      method: 'POST',
+      url: (0,_config_url_js__WEBPACK_IMPORTED_MODULE_0__.get_api_url)('group.php'),
+      data: {
+        name: name.val()
+      },
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('Access-Token', _helper_storage_js__WEBPACK_IMPORTED_MODULE_2__.store.get('access_token'));
+      }
+    }).done(function (data) {
+      _helper_response_js__WEBPACK_IMPORTED_MODULE_1__.response.init(data, form);
+
+      if (_helper_response_js__WEBPACK_IMPORTED_MODULE_1__.response.hasError()) {
+        _helper_response_js__WEBPACK_IMPORTED_MODULE_1__.response.failed();
+      } else {
+        _helper_response_js__WEBPACK_IMPORTED_MODULE_1__.response.success('Added new group');
+      }
+    });
+  });
+});
+/*
+,-----------------------------------,
+|   Contact Data Handle             |
+'-----------------------------------'
+*/
+
+$(document).ready(function () {
+  /**
+   * Get groups and set to group selector
+   */
+  var groupSelector = $('#group');
+  $.ajax({
+    method: 'GET',
+    url: (0,_config_url_js__WEBPACK_IMPORTED_MODULE_0__.get_api_url)('group.php'),
+    beforeSend: function beforeSend(xhr) {
+      xhr.setRequestHeader('Access-Token', _helper_storage_js__WEBPACK_IMPORTED_MODULE_2__.store.get('access_token'));
+    }
+  }).done(function (res) {
+    var options = '';
+
+    if (res.status != 'error') {
+      $.each(res, function (i, group) {
+        options += '<option value="' + group.id + '">' + group.name + '</option>';
+      });
+    } else {
+      options = '<option value="0">Public</option>';
+    }
+
+    groupSelector.html(options);
+  }); // create contact
+
+  var form = $('#form-contact-create');
+  var avatarDisplay = $('#avatar-show');
+  var defaultPath = '/assets/images/avatar-blank.png';
+  form.submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+      method: 'POST',
+      url: (0,_config_url_js__WEBPACK_IMPORTED_MODULE_0__.get_api_url)('contact.php'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('Access-Token', _helper_storage_js__WEBPACK_IMPORTED_MODULE_2__.store.get('access_token'));
+      }
+    }).done(function (data) {
+      _helper_response_js__WEBPACK_IMPORTED_MODULE_1__.response.init(data, form);
+
+      if (_helper_response_js__WEBPACK_IMPORTED_MODULE_1__.response.hasError()) {
+        _helper_response_js__WEBPACK_IMPORTED_MODULE_1__.response.failed();
+      } else {
+        _helper_response_js__WEBPACK_IMPORTED_MODULE_1__.response.success(function () {
+          avatarDisplay.attr('src', defaultPath);
+        }, 'Added new Contact');
+      }
+    });
+  });
+});
+
+/***/ }),
+
 /***/ "./resource/src/js/file-upload.js":
 /*!****************************************!*\
   !*** ./resource/src/js/file-upload.js ***!
@@ -279,7 +391,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   var avatarDisplay = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#avatar-show');
   var btnRemove = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#remove-contact-avatar');
   var avatarInput = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#avatar-contact');
-  var defaultPath = 'asset/images/avatar-blank.png'; // var animationClass = 'animate__animated animate__rubberBand';
+  var defaultPath = '/assets/images/avatar-blank.png'; // var animationClass = 'animate__animated animate__rubberBand';
 
   var animationClassIN = 'animate__animated animate__flipInY';
   var animationClassOUT = 'animate__animated animate__flipOutY';
@@ -310,6 +422,129 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     e.preventDefault();
   });
 });
+
+/***/ }),
+
+/***/ "./resource/src/js/helper/response.js":
+/*!********************************************!*\
+  !*** ./resource/src/js/helper/response.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "response": () => (/* binding */ response)
+/* harmony export */ });
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ResponseHandler() {
+  this.data;
+  this.form;
+  this.feedbackClass = '.invalid-feedback';
+  this.displaySelector = '.display-response';
+  this.display = $(this.displaySelector);
+  this.alertTime = 3000;
+
+  this.init = function (data, form) {
+    this.data = data;
+    this.form = form;
+    this.unsetFeedback();
+  };
+}
+
+ResponseHandler.prototype.hasError = function () {
+  if (this.data.status == 'error') {
+    return true;
+  }
+
+  return false;
+};
+
+ResponseHandler.prototype.success = function (callback) {
+  var _this = this;
+
+  var msg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  this.emptyFields(); // 
+
+  callback();
+  msg == null ? this.display.text(this.data.response) : this.display.text(msg);
+  this.display.addClass('alert alert-success').fadeIn().delay(this.alertTime).fadeOut();
+  setTimeout(function () {
+    _this.display.text('').removeClass('alert alert-success');
+  }, this.alertTime + 500);
+};
+
+ResponseHandler.prototype.failed = function () {
+  var _this2 = this;
+
+  if (this.hasError()) {
+    $.each(this.data.response, function (key, value) {
+      var element;
+
+      if (_this2.form.find('input[name=' + key + ']').length > 0) {
+        element = _this2.form.find('input[name=' + key + ']');
+      }
+
+      if (_this2.form.find('select[name=' + key + ']').length > 0) {
+        element = _this2.form.find('select[name=' + key + ']');
+      }
+
+      var feedbackEL = $(element.parent().children(_this2.feedbackClass));
+      element.addClass('is-invalid');
+      feedbackEL.text(value);
+    });
+  }
+};
+
+ResponseHandler.prototype.unsetFeedback = function () {
+  this.fetchInputs(function (el, feedbackEL) {
+    el.removeClass('is-invalid');
+    feedbackEL.text('');
+  });
+};
+
+ResponseHandler.prototype.emptyFields = function () {
+  this.fetchInputs(function (el) {
+    console.log(el);
+    el.val('');
+  });
+};
+
+ResponseHandler.prototype.fetchInputs = function (cb) {
+  var _this3 = this;
+
+  var inputs;
+  var selects;
+
+  if (this.form.find('input[name]').length > 0) {
+    inputs = this.form.find('input[name]');
+  }
+
+  if (this.form.find('select[name]').length > 0) {
+    selects = this.form.find('select[name]');
+  }
+
+  var forms = [].concat(_toConsumableArray(inputs), _toConsumableArray(selects));
+  $.each(forms, function (i, element) {
+    var feedbackEL = $($(element).parent().children(_this3.feedbackClass));
+    var element = $(element);
+    cb(element, feedbackEL);
+  });
+};
+
+var response = new ResponseHandler();
 
 /***/ }),
 

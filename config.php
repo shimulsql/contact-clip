@@ -4,6 +4,7 @@
     define('BASE', dirname(__FILE__) . DIRECTORY_SEPARATOR);
     define('ASSETS', URLROOT . '/assets/');
     define('TEMPLATES', BASE . 'templates/');
+    define('UPLOADS', BASE . 'resource/uploads/');
 
     // site config
     define('SITETITLE', ' Contact Clip');

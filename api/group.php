@@ -7,6 +7,14 @@
 
     $api = new ApiHandler();
 
+    $api->get(function($model){
+        
+        $response = $model->get_groups(auth()->user()->id);
+
+        api()->encode($response);
+
+    }, new Group);
+
     $api->post(function($model){
 
         $response = $model->insertGroup($_POST);

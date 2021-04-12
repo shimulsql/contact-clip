@@ -8,7 +8,7 @@ $(document).ready(function(){
     var avatarDisplay = $('#avatar-show');
     var btnRemove = $('#remove-contact-avatar');
     var avatarInput = $('#avatar-contact');
-    var defaultPath  = 'asset/images/avatar-blank.png';
+    var defaultPath  = '/assets/images/avatar-blank.png';
     // var animationClass = 'animate__animated animate__rubberBand';
     var animationClassIN = 'animate__animated animate__flipInY';
     var animationClassOUT = 'animate__animated animate__flipOutY';

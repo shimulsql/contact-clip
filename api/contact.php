@@ -9,7 +9,7 @@
 
     $api->post(function($model){
 
-        $response = $model->create($_POST);
+        $response = $model->insert($_POST);
 
         api()->encode($response);
 

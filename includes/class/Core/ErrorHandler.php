@@ -11,14 +11,12 @@
          * @return array
          */
         
-        public function make_error($array){
-            if(is_array($array)){
-                $error = array(
-                    'status' => 'error',
-                    'response' => $array
-                );
-                return $error;
-            }
+        public function make_error($msg = null){
+            $error = array(
+                'status' => 'error',
+                'response' => $msg
+            );
+            return $error;
         }
 
 

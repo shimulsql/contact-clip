@@ -22,6 +22,7 @@ import './js/file-upload.js';
 import './js/auth/login.js';
 import './js/auth/register.js';
 import './js/auth/form.js';
+import './js/data-handle.js';
 
 
 

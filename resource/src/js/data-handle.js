@@ -58,7 +58,70 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 
-    
+    /**
+     * Get groups and set to group selector
+     */
+
+    var groupSelector = $('#group');
+
+
+    $.ajax({
+        method: 'GET',
+        url: get_api_url('group.php'),
+        beforeSend: function(xhr){
+            xhr.setRequestHeader('Access-Token', store.get('access_token'));
+        }
+    })
+    .done(function(res){
+        var options = '';
+        if(res.status != 'error'){
+            $.each(res, function(i, group){
+                options += '<option value="'+ group.id +'">'+ group.name +'</option>';
+            });
+        }
+        else
+        {
+            options = '<option value="0">Public</option>';
+        }
+        
+
+        groupSelector.html(options);
+    })
+
+
+
+    // create contact
+    var form = $('#form-contact-create');
+    var avatarDisplay = $('#avatar-show');
+    var defaultPath  = '/assets/images/avatar-blank.png';
+
+    form.submit(function(e){
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            method: 'POST',
+            url: get_api_url('contact.php'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function(xhr){
+                xhr.setRequestHeader('Access-Token', store.get('access_token'));
+            }
+        })
+        .done(function(data){
+            response.init(data, form)
+
+            if(response.hasError()){
+                response.failed();
+            }else{
+                response.success(function(){
+                    avatarDisplay.attr('src', defaultPath)
+                },'Added new Contact');
+            }
+        })
+
+    })
 
 })
 

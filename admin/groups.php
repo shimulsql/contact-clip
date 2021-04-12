@@ -8,6 +8,6 @@
         page_title('Groups ');
     });
 
-    view('backend.group.list');
+    view('backend.group.index');
 
     get_footer();
