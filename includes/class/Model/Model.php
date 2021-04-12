@@ -2,21 +2,36 @@
 
     namespace App\Model;
 
+    use App\Core\FileSystem\ImageHandler;
     use App\Core\FormValidation;
     use App\Database\Database;
     use PDOException;
 
     class Model{
 
+        /** Table name by classname, auto generate @string */
         protected $table;
-        protected $db;
-        protected $validation;
+
+        /** Database table columns in array.  @array */
         protected $table_cols = [];
+
+        /** Database @class */
+        protected $db;
+
+        /** File Handler @class */
+        protected $fileH;
+
+        /** Image Handler @class */
+        protected $imageH;
+
+        /** Form validation @class */
+        protected $validation;
 
         public function __construct()
         {
             $this->db = new Database;
             $this->validation = new FormValidation;
+            $this->imageH = new ImageHandler;
 
             // dynamically set model's class name as table name
             if(strlen($this->table) <= 0){
@@ -151,6 +166,47 @@
             $class_name = get_class($this);
             $extracted_cname = explode('\\', $class_name);
             return strtolower(end($extracted_cname));
+        }
+
+                
+        /**
+         * Get images from uploads directory
+         * 
+         * It returns the image url by file name and size
+         *
+         * @param  string $filename
+         * @param  string $size
+         * @return string
+         */
+        
+        public function get_thumbnail($filename, $size = null){
+
+            $uploads_url = URLROOT .'/resource/uploads/';
+            
+            if($size == null)
+            {
+                return $uploads_url. $filename;
+            }
+            else
+            {
+                $extractedFilename = explode('.', $filename);
+
+                $onlyName = reset($extractedFilename);
+                $extension = '.'. end($extractedFilename);
+
+                $file_dir_path = UPLOADS . $onlyName .'-'. $size . $extension;
+
+                if(file_exists($file_dir_path)){
+                    return $uploads_url . $onlyName .'-'. $size . $extension;
+                }else{
+                    error()->make_error(array('thumbnail' => 'Thumbnail Not Found'));
+                }
+
+            }
+
+            
+
+
         }
 
     }
